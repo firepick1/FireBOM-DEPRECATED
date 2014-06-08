@@ -1,6 +1,5 @@
 package org.firepick.firebom.part;
-/*
-   CachedUrlResolver.java
+/* CachedUrlResolver.java
    Copyright (C) 2013 Karl Lew <karl@firepick.org>. All rights reserved.
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -51,11 +50,11 @@ public class CachedUrlResolver {
         trustAll();
     }
 
-    protected CachedUrlResolver() {
+    public CachedUrlResolver() {
         this(Locale.getDefault());
     }
 
-    protected CachedUrlResolver(Locale locale) {
+    public CachedUrlResolver(Locale locale) {
         if (locale == US) {
             accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
             language = "en-US,en;q=0.8";
@@ -240,4 +239,6 @@ public class CachedUrlResolver {
         this.basicAuth = basicAuth;
         return this;
     }
+
+
 }

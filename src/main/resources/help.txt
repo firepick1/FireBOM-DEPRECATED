@@ -8,6 +8,7 @@ USAGE:
 java -cp target/lib -jar target/Fire*.jar {options} {url}
 
 OPTIONS:
+-u url	  Get URL contents
 -markdown Print BOM using Markdown wiki syntax
 -csv      Print BOM using comma separated values (default)
 -html     Print BOM as HTML table

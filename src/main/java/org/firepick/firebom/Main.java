@@ -18,53 +18,64 @@ package org.firepick.firebom;
 
 import org.firepick.firebom.bom.BOM;
 import org.firepick.firebom.bom.BOMFactory;
+import org.firepick.firebom.part.CachedUrlResolver;
 
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         mainStream(args, System.out);
     }
 
-    public static void mainStream(String[] args, PrintStream printStream) throws IOException {
+    public static void mainStream(String[] args, PrintStream printStream) throws Exception {
         BOMFactory bomFactory = new BOMFactory();
 
         try {
             if (!parseArgs(args, bomFactory, printStream)) {
                 printHelp(printStream);
             }
-        }
-        finally {
+	} finally {
             bomFactory.shutdown();
         }
     }
 
+    private static boolean getUrl(String urlString) throws Exception {
+      CachedUrlResolver resolver = new CachedUrlResolver();
+      URL url = new URL(urlString);
+      String content = resolver.get(url);
+      System.out.println(content);
+      return true;
+    }
 
-    private static boolean parseArgs(String[] args, BOMFactory bomFactory, PrintStream printStream) throws IOException {
-        int urlCount = 0;
+    private static boolean parseArgs(String[] args, BOMFactory bomFactory, PrintStream printStream) throws Exception {
+      int urlCount = 0;
+      boolean ok = false;
 
-        for (String arg: args) {
-            if ("-markdown".equalsIgnoreCase(arg)) {
-                bomFactory.setOutputType(BOMFactory.OutputType.MARKDOWN);
-            } else if ("-csv".equalsIgnoreCase(arg)) {
-                bomFactory.setOutputType(BOMFactory.OutputType.CSV);
-            } else if ("-html".equalsIgnoreCase(arg)) {
-                bomFactory.setOutputType(BOMFactory.OutputType.HTML);
-            } else {
-                try {
-                    URL url = new URL(arg);
-                    urlCount++;
-                    BOM bom = new BOM(url);
-                    bom.resolve(0);
-                    bomFactory.printBOM(printStream, bom, null);
-                } catch (MalformedURLException e) {
-                    return false;
-                }
-            }
-        }
-        return urlCount > 0;
+      for (int i=1; i<args.length; i++) {
+	String arg = args[i];
+	if ("-u".equals(arg)) {
+	  if (i+1 >= args.length) {
+	    throw new RuntimeException("Expected URL after \"-u\"");
+	  }
+	  ok = getUrl(args[++i]) || ok;
+	} else if ("-markdown".equalsIgnoreCase(arg)) {
+	    bomFactory.setOutputType(BOMFactory.OutputType.MARKDOWN);
+	} else if ("-csv".equalsIgnoreCase(arg)) {
+	    bomFactory.setOutputType(BOMFactory.OutputType.CSV);
+	} else if ("-html".equalsIgnoreCase(arg)) {
+	    bomFactory.setOutputType(BOMFactory.OutputType.HTML);
+	} else {
+	    System.out.println("Resolving uri:" + arg);
+	    URL url = new URL(arg);
+	    urlCount++;
+	    BOM bom = new BOM(url);
+	    bom.resolve(0);
+	    bomFactory.printBOM(printStream, bom, null);
+	}
+      }
+      return ok || urlCount > 0;
     }
 
     public static void printHelp(PrintStream printStream) throws IOException {

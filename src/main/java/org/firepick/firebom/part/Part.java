@@ -23,7 +23,6 @@ import org.firepick.firebom.exception.CyclicReferenceException;
 import org.firepick.firebom.exception.ProxyResolutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -369,7 +368,7 @@ public class Part implements IPartComparable, Serializable, IRefreshableProxy {
   }
 
   protected void refreshFromRemoteContent(String content) throws Exception {
-    throw new NotImplementedException();
+    throw new RuntimeException("Not impelemented");
   }
 
   @Override
