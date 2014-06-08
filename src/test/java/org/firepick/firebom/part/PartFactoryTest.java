@@ -276,7 +276,11 @@ public class PartFactoryTest {
   @Test
   public void testAdafruit() throws Exception {
     PartTester tester = new PartTester(partFactory, "http://www.adafruit.com/products/1367")
-      .testVendor("www.adafruit.com").testId("1367").testPackageUnits(1).testPackageCost(29.95, .5);
+      .testVendor("www.adafruit.com").testId("1367").testPackageUnits(1).testPackageCost(29.95, .5)
+      .testTitle("Raspberry Pi Camera Board");
+    new PartTester(partFactory, "https://github.com/firepick1/FirePick/wiki/DG20")
+      .testVendor("www.adafruit.com").testId("DG20").testPackageUnits(1).testPackageCost(7.95, .5)
+      .testTitle("GT2 drive pulley, 5mm shaft, 20 teeth");
   }
 
   @Test
