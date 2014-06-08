@@ -23,8 +23,8 @@ import java.util.regex.Pattern;
 public class ShapewaysPart extends Part {
     private static Pattern startId = Pattern.compile("<title>");
     private static Pattern endId = Pattern.compile(" ");
-    private static Pattern startPrice = Pattern.compile(" <div class=\"price\">\\$");
-    private static Pattern endPrice = Pattern.compile("</div>");
+    private static Pattern startPrice = Pattern.compile("class=\"price\">\\$");
+    private static Pattern endPrice = Pattern.compile("</");
 
     public ShapewaysPart(PartFactory partFactory, URL url, CachedUrlResolver urlResolver)  {
         super(partFactory, url, urlResolver);

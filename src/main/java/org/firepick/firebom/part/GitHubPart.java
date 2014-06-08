@@ -37,6 +37,7 @@ public class GitHubPart extends HtmlPart {
         setId(id);
         String title = PartFactory.getInstance().scrapeText(content, startTitle, endTitle);
         if (title != null) {
+            title = title.replaceAll("\\s*<a href.*","");
             setTitle(title);
         }
         String [] paths = getUrl().getPath().split("/");

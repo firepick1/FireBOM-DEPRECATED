@@ -22,54 +22,65 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.regex.Pattern;
 
-public class AmazonPart extends Part {
-    private static Pattern startPrice = Pattern.compile("priceLarge\">\\$");
-    private static Pattern endPrice = Pattern.compile("<");
-    private static Pattern startTitle = Pattern.compile("AsinTitle\"\\s*>");
-    private static Pattern endTitle = Pattern.compile("</");
-    private static Pattern startUnitCost = Pattern.compile("actualPriceExtraMessaging\">\\s*<span class=\"pricePerUnit\">\\(\\$", Pattern.MULTILINE);
-    private static Pattern endUnitCost = Pattern.compile("/\\s?count");
+public class AmazonPart extends HtmlPart {
+  private static Pattern startPrice = Pattern.compile("\"buyingPrice\":");
+  private static Pattern endPrice = Pattern.compile(",");
+  //  private static Pattern startTitle = Pattern.compile("id=\"title\"\\s*class=\"[^\"]*\">", Pattern.MULTILINE);
+  //  private static Pattern endTitle = Pattern.compile("\\s*<");
+  private static Pattern startUnitCost = Pattern.compile("price\">\\s*\\(\\$", Pattern.MULTILINE);
+  private static Pattern endUnitCost = Pattern.compile("\\s*/\\s*count");
 
-    public AmazonPart(PartFactory partFactory, URL url, CachedUrlResolver urlResolver)  {
-        super(partFactory, url, urlResolver);
-    }
+  public AmazonPart(PartFactory partFactory, URL url, CachedUrlResolver urlResolver) {
+    super(partFactory, url, urlResolver);
+  }
 
-    @Override
-    protected void refreshFromRemoteContent(String content) throws IOException {
-        String title = PartFactory.getInstance().scrapeText(content, startTitle, endTitle);
-        if (title != null) {
-            title = title.replaceAll("Amazon.com:\\s?", "");
-            setTitle(title);
+  @Override
+  protected void refreshFromRemoteContent(String content) throws IOException {
+    String title = PartFactory.getInstance().scrapeText(content, startTitle, endTitle);
+    if (title != null) {
+      title = title.replaceAll("&amp;", "&");
+      String [] phrases = title.split(":");
+      for (String phrase: phrases) {
+        if (phrase.contains("Amazon.com")) {
+          continue;
+        } else if (getTitle() == null) {
+          setTitle(phrase);
+        } else {
+          setTitleCategory(phrase);
         }
-        String price = PartFactory.getInstance().scrapeText(content, startPrice, endPrice);
-        if (price != null) {
-            setPackageCost(Double.parseDouble(price));
-        }
-        String unitCostStr = PartFactory.getInstance().scrapeText(content, startUnitCost, endUnitCost);
-        if (unitCostStr != null) {
-            try {
-                double unitCost = Double.parseDouble(unitCostStr);
-                long units = PartFactory.estimateQuantity(getPackageCost(), unitCost);
-                setPackageUnits((double) units);
-            } catch (Exception e) {
-                // ignore
-            }
-        }
-        String [] urlTokens = getUrl().toString().split("/");
-        String id;
-        switch (urlTokens.length) {
-            case 5: id = urlTokens[4];
-                break;
-            case 6:
-            case 7:
-                id = urlTokens[5];
-                break;
-            default:
-                throw new ProxyResolutionException("Could not parse www.amazon.com url: " + getUrl());
-        }
-        if (id != null) {
-            setId(id);
-        }
+      }
     }
+    String price = PartFactory.getInstance().scrapeText(content, startPrice, endPrice);
+    if (price != null) {
+      setPackageCost(Double.parseDouble(price));
+    }
+    String unitCostStr = PartFactory.getInstance().scrapeText(content, startUnitCost, endUnitCost);
+    if (unitCostStr != null) {
+      try {
+//                double unitCost = Double.parseDouble(unitCostStr);
+//                long units = PartFactory.estimateQuantity(getPackageCost(), unitCost);
+//                setPackageUnits((double) units);
+      }
+      catch (Exception e) {
+        // ignore
+      }
+    }
+    String[] urlTokens = getUrl().toString().split("/");
+    String id;
+    switch (urlTokens.length) {
+      case 5:
+        id = urlTokens[4];
+        break;
+      case 6:
+      case 7:
+        id = urlTokens[5];
+        break;
+      default:
+        throw new ProxyResolutionException("Could not parse www.amazon.com url: " + getUrl());
+    }
+    if (id != null) {
+      setId(id);
+    }
+  }
 
 }

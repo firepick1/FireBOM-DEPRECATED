@@ -21,11 +21,11 @@ import java.net.URL;
 import java.util.regex.Pattern;
 
 public class AdafruitPart extends HtmlPart {
-    private static final Pattern startPrice = Pattern.compile("productPrices\" class=\"productGeneral\">\\s*\\$",Pattern.MULTILINE);
-    private static final Pattern endPrice = Pattern.compile("<");
+    private static final Pattern startPrice = Pattern.compile("twitter:data1\" content=\"\\$",Pattern.MULTILINE);
+    private static final Pattern endPrice = Pattern.compile("USD");
     private static final Pattern endTitle = Pattern.compile(":");
-    private static final Pattern startId = Pattern.compile("<a href=\"products/");
-    private static final Pattern endId = Pattern.compile("#");
+    private static final Pattern startId = Pattern.compile("google_base_offer_id\", \"");
+    private static final Pattern endId = Pattern.compile("\"");
 
     public AdafruitPart(PartFactory partFactory, URL url, CachedUrlResolver urlResolver) {
         super(partFactory, url, urlResolver);
