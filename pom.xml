@@ -192,7 +192,7 @@
                     <warName>firebom</warName>
                     <webResources>
                         <resource>
-                            <directory>/src/main/resources</directory>
+                            <directory>src/main/resources</directory>
                             <include>firebom.css</include>
                         </resource>
                     </webResources>
