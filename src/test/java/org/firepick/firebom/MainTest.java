@@ -25,7 +25,7 @@ import static org.junit.Assert.assertEquals;
 
 public class MainTest {
     @Test
-    public void testHelp() throws IOException {
+    public void testHelp() throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         BufferedOutputStream bos = new BufferedOutputStream(baos);
         PrintStream printWriter = new PrintStream(bos);
