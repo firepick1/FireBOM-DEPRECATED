@@ -60,6 +60,8 @@ public class Main {
 	    throw new RuntimeException("Expected URL after \"-u\"");
 	  }
 	  ok = getUrl(args[++i]) || ok;
+	} else if ("-nocache".equalsIgnoreCase(arg)) {
+	    CachedUrlResolver.setIsCached(false);
 	} else if ("-markdown".equalsIgnoreCase(arg)) {
 	    bomFactory.setOutputType(BOMFactory.OutputType.MARKDOWN);
 	} else if ("-csv".equalsIgnoreCase(arg)) {

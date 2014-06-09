@@ -12,6 +12,7 @@ OPTIONS:
 -markdown Print BOM using Markdown wiki syntax
 -csv      Print BOM using comma separated values (default)
 -html     Print BOM as HTML table
+-nocache  Do not cache URL contents
 
 EXAMPLES:
 java -jar target/firebom.jar https://github.com/firepick1/FirePick/wiki/D7IH

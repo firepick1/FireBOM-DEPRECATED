@@ -45,6 +45,7 @@ public class CachedUrlResolver {
     private String basicAuth;
     private long urlRequests;
     private long networkRequests;
+    private static boolean isCached = true;
 
     static {
         trustAll();
@@ -56,10 +57,19 @@ public class CachedUrlResolver {
 
     public CachedUrlResolver(Locale locale) {
         if (locale == US) {
-            accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
+	    accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
             language = "en-US,en;q=0.8";
-            userAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.95 Safari/537.36";
+	    userAgent = "Mozilla/5.0 (X11; CrOS x86_64 5712.61.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.116 Safari/537.36";
         }
+    }
+
+    public static void setIsCached(boolean value) {
+      logger.info("setIsCached({})", value);
+      isCached = value;
+    }
+
+    public static boolean getIsCached() {
+      return isCached;
     }
 
     private static void trustAll() {
@@ -94,7 +104,7 @@ public class CachedUrlResolver {
     public String get(URL url) throws IOException {
         urlRequests++;
         Element cacheElement = getCache("URL-contents").get(url);
-        if (cacheElement == null) {
+        if (!isCached || cacheElement == null) {
             StringBuilder response;
             InputStreamReader isr;
             HttpURLConnection connection;
@@ -106,6 +116,9 @@ public class CachedUrlResolver {
                     connection = createHttpURLConnection(url);
                     isr = new InputStreamReader(connection.getInputStream());
                     int responseCode = connection.getResponseCode();
+		    if (!isCached) {
+		      logger.info("get({}) => {}", url, responseCode);
+		    }
                     switch (responseCode) {
                         case HttpURLConnection.HTTP_MOVED_PERM:
                         case HttpURLConnection.HTTP_MOVED_TEMP: {
@@ -118,7 +131,7 @@ public class CachedUrlResolver {
                             followRedirect = false;
                             break;
                     }
-                } while (followRedirect && (++nFollows <= 3));
+                } while (followRedirect && (++nFollows <= 5));
                 BufferedReader br = new BufferedReader(isr);
                 response = new StringBuilder();
                 String inputLine;
