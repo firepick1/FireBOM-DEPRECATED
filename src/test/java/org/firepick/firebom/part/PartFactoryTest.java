@@ -146,7 +146,7 @@ public class PartFactoryTest {
       .testTitle("20 Bearing 625ZZ 5x16x5 Shielded Miniature Ball Bearings VXB Brand")
       .testTitleCategory("Industrial & Scientific");
     new PartTester(partFactory, "http://www.amazon.com/dp/B000A0PYQK/")
-      .testId("B000A0PYQK").testPackageCost(21.23, 2).testPackageUnits(1)
+      .testId("B000A0PYQK").testPackageCost(13.99, 2).testPackageUnits(1)
       .testTitle("Tetra 77855 Whisper Air Pump, 100-Gallon")
       .testTitleCategory("Pet Supplies").getPart();
   }
@@ -217,7 +217,7 @@ public class PartFactoryTest {
   @Test
   public void testPonoko() throws Exception {
     new PartTester(partFactory, "https://github.com/firepick1/FirePick/wiki/A3B1")
-      .testId("A3B1").testPackageCost(1.535, .5d).testPackageUnits(1).testSourceCost(1)
+      .testId("A3B1").testPackageCost(2.3, .5d).testPackageUnits(1).testSourceCost(1)
       .testRequiredParts(4).testProject("FirePick").testVendor("www.ponoko.com");
     new PartTester(partFactory, "http://www.ponoko.com/design-your-own/products/a3b1-10268")
       .testId("a3b1-10268").testPackageCost(12.00, 0).testPackageUnits(1).testUnitCost(12).testUnitCost(12)
@@ -306,7 +306,7 @@ public class PartFactoryTest {
     new PartTester(partFactory, "https://github.com/firepick1/FirePick/wiki/X523")
       .testId("X523").testPackageCost(1.175, 0).testPackageUnits(1).testUnitCost(1.175).testRequiredParts(2).testProject("FirePick");
     new PartTester(partFactory, "https://github.com/firepick1/FirePick/wiki/F3WF")
-      .testId("F3WF").testUnitCost(0.0227).testPackageCost(0.0227, 0).testPackageUnits(1);
+      .testId("F3WF").testUnitCost(0.0238,.01).testPackageCost(0.0238, 0.01).testPackageUnits(1);
   }
 
   @Test
