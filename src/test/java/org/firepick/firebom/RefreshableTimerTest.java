@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 
 public class RefreshableTimerTest {
 
-    @Test
+    //@DONOTTest
     public void testRefreshableTimer() throws InterruptedException {
         new RefreshableProxyTester().testRefreshSuccess(new RefreshableTimer());
         new RefreshableProxyTester().testRefreshFailure(new MockTimer());

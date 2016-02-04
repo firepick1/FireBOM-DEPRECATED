@@ -5,7 +5,7 @@ FireBOM searches the web for parts, prices and quantities to construct
 a Build Of Materials (BOM) for you.
 
 USAGE:
-java -cp target/lib -jar target/Fire*.jar {options} {url}
+java -cp target/lib -jar target/Fire*.jar {options} -u URL
 
 OPTIONS:
 -u url	  Get URL contents
@@ -15,4 +15,4 @@ OPTIONS:
 -nocache  Do not cache URL contents
 
 EXAMPLES:
-java -jar target/firebom.jar https://github.com/firepick1/FirePick/wiki/D7IH
+java -jar target/firebom.jar -u https://github.com/firepick1/FPD-LooseCanon/wiki/3DLC1032

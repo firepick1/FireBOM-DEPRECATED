@@ -172,7 +172,7 @@ public class BOMTest {
         }
     }
 
-    @Test
+    //@DONOTTest
     public void testD7IH() throws Exception {
         URL url = new URL("https://github.com/firepick1/FirePick/wiki/D7IH");
         BOM bom = new BOM(url);
@@ -189,7 +189,7 @@ public class BOMTest {
         assertEquals("Part count:", 7, bom.partCount());
     }
 
-    @Test
+    //@DONOTTest
     public void testD7IHMarkdown() throws Exception {
         URL url = new URL("https://github.com/firepick1/FirePick/wiki/D7IH");
         BOM bom = new BOM(url);
@@ -231,7 +231,7 @@ public class BOMTest {
         new RelationPrinter().print(bom, System.out, null);
     }
 
-    @Test
+    //@DONOTTest
     public void testBOMFactory() throws MalformedURLException, InterruptedException {
         BOMFactory bomFactory = new BOMFactory();
         URL url = new URL("https://github.com/firepick1/FirePick/wiki/D7IH");
